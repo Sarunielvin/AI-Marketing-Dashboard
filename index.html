@@ -578,27 +578,27 @@ generateCreativeButton.addEventListener('click', async () => {
 
     const file = imageUploadInput.files[0];
     const formData = new FormData();
-    formData.append('image', file);  // 'image' matches your n8n Binary Property
+    formData.append('image', file);  // Matches n8n Binary Property
 
     try {
         const response = await fetch(CREATIVE_WEBHOOK_URL, {
             method: 'POST',
             body: formData,
             headers: {
-                'Header Auth': '83633dfe-3588-4a6f-8a51-c6c9753125d5ba07fb77-6f8d-4fee-9f7e-2608a33deab4'  // Replace with your actual secret key and header name from Step 2
+                'X-Webhook-Secret': '83633dfe-3588-4a6f-8a51-c6c9753125d5ba07fb77-6f8d-4fee-9f7e-2608a33deab4'  // No space in key
             }
         });
 
         if (response.ok) {
             alert('Creative brief generated successfully!');
         } else {
-            alert('Failed to generate creative brief. Check if auth header is correct.');
+            const errorText = await response.text();  // Add this for better debugging
+            alert(`Failed to generate: ${response.status} - ${errorText}`);
         }
     } catch (error) {
-        alert('An error occurred. Please try again.');
+        alert(`Error: ${error.message}`);  // Improved: Show actual error message
     }
 });
-
             // --- Chatbot Logic ---
             const userInput = document.getElementById('user-input');
             const sendButton = document.getElementById('send-button');
@@ -666,6 +666,7 @@ generateCreativeButton.addEventListener('click', async () => {
     </script>
 </body>
 </html>
+
 
 
 
