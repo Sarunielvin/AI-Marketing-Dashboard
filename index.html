@@ -570,35 +570,34 @@
                 }
             });
 
-            generateCreativeButton.addEventListener('click', () => {
-                if (imageUploadInput.files.length === 0) {
-                    alert('Please select an image to upload first.');
-                    return;
-                }
+generateCreativeButton.addEventListener('click', async () => {
+    if (imageUploadInput.files.length === 0) {
+        alert('Please select an image to upload first.');
+        return;
+    }
 
-                const file = imageUploadInput.files[0];
-                const reader = new FileReader();
-                reader.onloadend = async () => {
-                    const base64Data = reader.result;
+    const file = imageUploadInput.files[0];
+    const formData = new FormData();
+    formData.append('image', file);  // 'image' matches your n8n Binary Property
 
-                    // This is a simplified fetch request. In a real-world scenario, you'd show a loading state and handle success/error messages.
-                    try {
-                        const response = await fetch(CREATIVE_WEBHOOK_URL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ image: base64Data })
-                        });
-                        if (response.ok) {
-                            alert('Creative brief generated successfully!');
-                        } else {
-                            alert('Failed to generate creative brief.');
-                        }
-                    } catch (error) {
-                        alert('An error occurred. Please try again.');
-                    }
-                };
-                reader.readAsDataURL(file);
-            });
+    try {
+        const response = await fetch(CREATIVE_WEBHOOK_URL, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Webhook-Secret': 'my-super-secret-key-12345-abcde'  // Replace with your actual secret key and header name from Step 2
+            }
+        });
+
+        if (response.ok) {
+            alert('Creative brief generated successfully!');
+        } else {
+            alert('Failed to generate creative brief. Check if auth header is correct.');
+        }
+    } catch (error) {
+        alert('An error occurred. Please try again.');
+    }
+});
 
             // --- Chatbot Logic ---
             const userInput = document.getElementById('user-input');
@@ -667,6 +666,7 @@
     </script>
 </body>
 </html>
+
 
 
 
