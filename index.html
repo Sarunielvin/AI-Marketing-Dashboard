@@ -578,10 +578,10 @@ generateCreativeButton.addEventListener('click', async () => {
 
     const file = imageUploadInput.files[0];
     const formData = new FormData();
-    formData.append('image', file);  // Clean: Only this key
+    formData.append('image', file);
 
     try {
-        const response = await fetch('https://sarunielvin.app.n8n.cloud/webhook/b3b4d4fc-a180-4aad-96bb-616956d17048', {  // Your Production URL
+        const response = await fetch('https://sarunielvin.app.n8n.cloud/webhook/f2de7cd7-24f2-4a6d-afae-2b58aa107d3c', {
             method: 'POST',
             body: formData,
             headers: {
@@ -589,15 +589,20 @@ generateCreativeButton.addEventListener('click', async () => {
             }
         });
 
+        const textResponse = await response.text();  // Always get text first
+
         if (response.ok) {
-            const result = await response.json();
-            alert(`Success! Debug keys: ${result.debug_keys || 'Check n8n'}. Full result: ${JSON.stringify(result, null, 2)}`);
+            try {
+                const result = JSON.parse(textResponse);  // Parse only if OK
+                alert('Success! Debug: ' + JSON.stringify(result, null, 2));
+            } catch (parseErr) {
+                alert('Success but parse failed: ' + textResponse.substring(0, 200));  // Show raw text
+            }
         } else {
-            const errorText = await response.text();
-            alert(`Failed: ${response.status} - ${errorText}`);
+            alert(`Failed: ${response.status} - Raw response: ${textResponse.substring(0, 200)}`);  // Show error HTML snippet
         }
     } catch (error) {
-        alert(`Network issue: ${error.message}`);
+        alert(`Network Error: ${error.message}`);
     }
 });
             // --- Chatbot Logic ---
@@ -667,6 +672,7 @@ generateCreativeButton.addEventListener('click', async () => {
     </script>
 </body>
 </html>
+
 
 
 
