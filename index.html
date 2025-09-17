@@ -586,23 +586,17 @@ generateCreativeButton.addEventListener('click', async () => {
             body: formData,
             headers: {
                 'X-Webhook-Secret': '83633dfe-3588-4a6f-8a51-c6c9753125d5ba07fb77-6f8d-4fee-9f7e-2608a33deab4'
-            }
+            },
+            mode: 'cors' // Added for CORS support
         });
-
-        const textResponse = await response.text();  // Always get text first
-
+        const textResponse = await response.text();
         if (response.ok) {
-            try {
-                const result = JSON.parse(textResponse);  // Parse only if OK
-                alert('Success! Debug: ' + JSON.stringify(result, null, 2));
-            } catch (parseErr) {
-                alert('Success but parse failed: ' + textResponse.substring(0, 200));  // Show raw text
-            }
+            alert('Success: ' + textResponse);
         } else {
-            alert(`Failed: ${response.status} - Raw response: ${textResponse.substring(0, 200)}`);  // Show error HTML snippet
+            alert('Failed: ' + response.status + ' - ' + textResponse);
         }
     } catch (error) {
-        alert(`Network Error: ${error.message}`);
+        alert('Network Error: ' + error.message);
     }
 });
             // --- Chatbot Logic ---
@@ -672,6 +666,7 @@ generateCreativeButton.addEventListener('click', async () => {
     </script>
 </body>
 </html>
+
 
 
 
