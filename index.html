@@ -581,24 +581,23 @@ generateCreativeButton.addEventListener('click', async () => {
     formData.append('image', file);
 
     try {
-        const response = await fetch('https://sarunielvin.app.n8n.cloud/webhook/b3b4d4fc-a180-4aad-96bb-616956d17048', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Webhook-Secret': '83633dfe-3588-4a6f-8a51-c6c9753125d5ba07fb77-6f8d-4fee-9f7e-2608a33deab4'
-            },
-            mode: 'cors' // Added for CORS support
-        });
-        const textResponse = await response.text();
-        if (response.ok) {
-            alert('Success: ' + textResponse);
-        } else {
-            alert('Failed: ' + response.status + ' - ' + textResponse);
-        }
-    } catch (error) {
-        alert('Network Error: ' + error.message);
+    const response = await fetch('https://sarunielvin.app.n8n.cloud/webhook/b3b4d4fc-a180-4aad-96bb-616956d17048', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Webhook-Secret': '83633dfe-3588-4a6f-8a51-c6c9753125d5ba07fb77-6f8d-4fee-9f7e-2608a33deab4'
+        },
+        mode: 'cors'
+    });
+    const textResponse = await response.text();
+    if (response.ok) {
+        alert('Success: ' + textResponse);
+    } else {
+        alert('Failed: ' + response.status + ' - ' + textResponse);
     }
-});
+} catch (error) {
+    alert('Network Error: ' + error.message);
+}
             // --- Chatbot Logic ---
             const userInput = document.getElementById('user-input');
             const sendButton = document.getElementById('send-button');
@@ -666,6 +665,7 @@ generateCreativeButton.addEventListener('click', async () => {
     </script>
 </body>
 </html>
+
 
 
 
