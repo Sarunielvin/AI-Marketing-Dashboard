@@ -345,9 +345,9 @@
                         Based on search console and competitor data, here are the top opportunities to focus on this week.
                     </p>
                     <ul class="list-disc list-inside text-gray-700 space-y-2">
-                        <li>*High-Traffic Keyword:* [Keyword Example] - Your current ranking is #15. A content update could push you to the top 5.</li>
-                        <li>*Prospect Query:* [Query Example] - Competitor X ranks #1 for this. Create a blog post or video to target this query.</li>
-                        <li>*Competitor Gap:* Competitor Y is ranking for [Keyword Example] but doesn't have a content hub. Create an in-depth article series to dominate this topic.</li>
+                        <li>**High-Traffic Keyword:** `[Keyword Example]` - Your current ranking is #15. A content update could push you to the top 5.</li>
+                        <li>**Prospect Query:** `[Query Example]` - Competitor X ranks #1 for this. Create a blog post or video to target this query.</li>
+                        <li>**Competitor Gap:** Competitor Y is ranking for `[Keyword Example]` but doesn't have a content hub. Create an in-depth article series to dominate this topic.</li>
                     </ul>
                     <button id="run-seo-automation" class="w-full mt-6 bg-blue-500 text-white font-bold py-3 px-6 rounded-full transition-colors hover:bg-blue-600">
                         <i class="fas fa-play-circle mr-2"></i> Run SEO Automation
@@ -376,9 +376,9 @@
                 <div class="rounded-xl p-4 bg-gray-50 border border-gray-200">
                     <h3 class="text-lg font-semibold mb-2">Next Three Steps</h3>
                     <ol class="list-decimal list-inside text-gray-700 space-y-2">
-                        <li>*Step 1:* Use the AI agent to generate five new short-form video script ideas based on our top-performing content from the last month.</li>
-                        <li>*Step 2:* Use the Airtable automation to create a new content_idea record for each of these ideas.</li>
-                        <li>*Step 3:* Allocate 80% of our content creation time this week to producing the top two video ideas from that list.</li>
+                        <li>**Step 1:** Use the AI agent to generate five new short-form video script ideas based on our top-performing content from the last month.</li>
+                        <li>**Step 2:** Use the `Airtable` automation to create a new `content_idea` record for each of these ideas.</li>
+                        <li>**Step 3:** Allocate 80% of our content creation time this week to producing the top two video ideas from that list.</li>
                     </ol>
                 </div>
             </div>
@@ -421,7 +421,7 @@
                 item.addEventListener('click', () => {
                     const pageId = item.id.replace('nav-', '');
                     pages.forEach(page => page.classList.remove('active'));
-                    document.getElementById(${pageId}-page).classList.add('active');
+                    document.getElementById(`${pageId}-page`).classList.add('active');
                     sidebar.classList.remove('open');
                 });
             });
@@ -560,7 +560,7 @@
             const imageUploadInput = document.getElementById('image-upload');
             const fileNameSpan = document.getElementById('file-name');
             const generateCreativeButton = document.getElementById('generate-creative-button');
-            const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook/f2de7cd7-24f2-4a6d-afae-2b58aa107d3c'; // New webhook for creative automation
+            const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook-test/f2de7cd7-24f2-4a6d-afae-2b58aa107d3c'; // New webhook for creative automation
 
             imageUploadInput.addEventListener('change', () => {
                 if (imageUploadInput.files.length > 0) {
@@ -642,7 +642,7 @@
                     });
 
                     if (!response.ok) {
-                        throw new Error(HTTP error! status: ${response.status});
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
 
                     const data = await response.json();
