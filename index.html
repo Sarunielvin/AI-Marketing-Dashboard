@@ -432,6 +432,11 @@
         console.log('DOM fully loaded, starting script');
 
         // Hamburger Menu Debug
+        <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM fully loaded, starting script');
+
+        // Hamburger Menu Logic with Debug
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
         console.log('Hamburger element:', hamburgerMenu);
@@ -596,7 +601,7 @@
         const imageUploadInput = document.getElementById('image-upload');
         const fileNameSpan = document.getElementById('file-name');
         const generateCreativeButton = document.getElementById('generate-creative-button');
-        const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook/b3b4d4fc-a180-4aad-96bb-616956d17048';
+        const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook/f2de7cd7-24f2-4a6d-afae-2b58aa107d3c';
 
         imageUploadInput.addEventListener('change', () => {
             if (imageUploadInput.files.length > 0) {
@@ -606,34 +611,33 @@
             }
         });
 
-        generateCreativeButton.addEventListener('click', async () => {
+        generateCreativeButton.addEventListener('click', () => {
             if (imageUploadInput.files.length === 0) {
-                alert('Select image first.');
+                alert('Please select an image to upload first.');
                 return;
             }
 
             const file = imageUploadInput.files[0];
-            const formData = new FormData();
-            formData.append('image', file);
+            const reader = new FileReader();
+            reader.onloadend = async () => {
+                const base64Data = reader.result;
 
-            try {
-                const response = await fetch(CREATIVE_WEBHOOK_URL, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-Webhook-Secret': '83633dfe-3588-4a6f-8a51-c6c9753125d5ba07fb77-6f8d-4fee-9f7e-2608a33deab4'
-                    },
-                    mode: 'cors'
-                });
-                const textResponse = await response.text();
-                if (response.ok) {
-                    alert('Success: ' + textResponse);
-                } else {
-                    alert('Failed: ' + response.status + ' - ' + textResponse);
+                try {
+                    const response = await fetch(CREATIVE_WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ image: base64Data })
+                    });
+                    if (response.ok) {
+                        alert('Creative brief generated successfully!');
+                    } else {
+                        alert('Failed to generate creative brief.');
+                    }
+                } catch (error) {
+                    alert('An error occurred. Please try again.');
                 }
-            } catch (error) {
-                alert('Network Error: ' + error.message);
-            }
+            };
+            reader.readAsDataURL(file);
         });
 
         // --- Chatbot Logic ---
