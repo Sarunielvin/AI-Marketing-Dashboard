@@ -345,9 +345,9 @@
                         Based on search console and competitor data, here are the top opportunities to focus on this week.
                     </p>
                     <ul class="list-disc list-inside text-gray-700 space-y-2">
-                        <li>**High-Traffic Keyword:** `[Keyword Example]` - Your current ranking is #15. A content update could push you to the top 5.</li>
-                        <li>**Prospect Query:** `[Query Example]` - Competitor X ranks #1 for this. Create a blog post or video to target this query.</li>
-                        <li>**Competitor Gap:** Competitor Y is ranking for `[Keyword Example]` but doesn't have a content hub. Create an in-depth article series to dominate this topic.</li>
+                        <li>*High-Traffic Keyword:* [Keyword Example] - Your current ranking is #15. A content update could push you to the top 5.</li>
+                        <li>*Prospect Query:* [Query Example] - Competitor X ranks #1 for this. Create a blog post or video to target this query.</li>
+                        <li>*Competitor Gap:* Competitor Y is ranking for [Keyword Example] but doesn't have a content hub. Create an in-depth article series to dominate this topic.</li>
                     </ul>
                     <button id="run-seo-automation" class="w-full mt-6 bg-blue-500 text-white font-bold py-3 px-6 rounded-full transition-colors hover:bg-blue-600">
                         <i class="fas fa-play-circle mr-2"></i> Run SEO Automation
@@ -376,9 +376,9 @@
                 <div class="rounded-xl p-4 bg-gray-50 border border-gray-200">
                     <h3 class="text-lg font-semibold mb-2">Next Three Steps</h3>
                     <ol class="list-decimal list-inside text-gray-700 space-y-2">
-                        <li>**Step 1:** Use the AI agent to generate five new short-form video script ideas based on our top-performing content from the last month.</li>
-                        <li>**Step 2:** Use the `Airtable` automation to create a new `content_idea` record for each of these ideas.</li>
-                        <li>**Step 3:** Allocate 80% of our content creation time this week to producing the top two video ideas from that list.</li>
+                        <li>*Step 1:* Use the AI agent to generate five new short-form video script ideas based on our top-performing content from the last month.</li>
+                        <li>*Step 2:* Use the Airtable automation to create a new content_idea record for each of these ideas.</li>
+                        <li>*Step 3:* Allocate 80% of our content creation time this week to producing the top two video ideas from that list.</li>
                     </ol>
                 </div>
             </div>
@@ -421,287 +421,249 @@
                 item.addEventListener('click', () => {
                     const pageId = item.id.replace('nav-', '');
                     pages.forEach(page => page.classList.remove('active'));
-                    document.getElementById(`${pageId}-page`).classList.add('active');
+                    document.getElementById(${pageId}-page).classList.add('active');
                     sidebar.classList.remove('open');
                 });
             });
 
             // --- Download Report Logic ---
-          <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM fully loaded, starting script');
-
-        // Hamburger Menu Debug
-        <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM fully loaded, starting script');
-
-        // Hamburger Menu Logic with Debug
-        const hamburgerMenu = document.getElementById('hamburger-menu');
-        const sidebar = document.getElementById('sidebar');
-        console.log('Hamburger element:', hamburgerMenu);
-        console.log('Sidebar element:', sidebar);
-
-        if (!hamburgerMenu || !sidebar) {
-            console.error('Error: Hamburger or sidebar element not found!');
-            return;
-        }
-
-        hamburgerMenu.addEventListener('click', () => {
-            console.log('Hamburger clicked!');
-            sidebar.classList.toggle('open');
-            console.log('Sidebar classList:', sidebar.classList);
-        });
-
-        // --- UI and Navigation Logic ---
-        const navItems = document.querySelectorAll('.sidebar-item');
-        const pages = document.querySelectorAll('.content');
-        const downloadLink = document.getElementById('download-report');
-
-        navItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const pageId = item.id.replace('nav-', '');
-                pages.forEach(page => page.classList.remove('active'));
-                document.getElementById(`${pageId}-page`).classList.add('active');
-                sidebar.classList.remove('open');
+            downloadLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                const reportContent = document.getElementById('reports-page').innerText;
+                const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'weekly_report.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
             });
-        });
 
-        // --- Download Report Logic ---
-        downloadLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            const reportContent = document.getElementById('reports-page').innerText;
-            const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'weekly_report.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
+            // --- Chart.js Visualization (Social Media) ---
+            const viewsCtx = document.getElementById('viewsChart').getContext('2d');
+            const engagementCtx = document.getElementById('engagementChart').getContext('2d');
 
-        // --- Chart.js Visualization (Social Media) ---
-        const viewsCtx = document.getElementById('viewsChart').getContext('2d');
-        const engagementCtx = document.getElementById('engagementChart').getContext('2d');
+            const viewsChart = new Chart(viewsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                    datasets: [{
+                        label: 'Total Views',
+                        data: [5000, 8000, 12000, 15000, 20000],
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                        fill: true,
+                        tension: 0.4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } }
+                }
+            });
 
-        const viewsChart = new Chart(viewsCtx, {
-            type: 'line',
-            data: {
-                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
-                datasets: [{
-                    label: 'Total Views',
-                    data: [5000, 8000, 12000, 15000, 20000],
-                    borderColor: '#2563eb',
-                    backgroundColor: 'rgba(37, 99, 235, 0.2)',
-                    fill: true,
-                    tension: 0.4,
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } }
+            const engagementChart = new Chart(engagementCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Infographics', 'Short-form Video', 'Long-form Video', 'Articles'],
+                    datasets: [{
+                        label: 'Engagement',
+                        data: [25, 45, 20, 10],
+                        backgroundColor: ['#f59e0b', '#22c55e', '#ef4444', '#6b7280'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'right' } }
+                }
+            });
+
+            // --- Chart.js Visualization (Lead Capture) ---
+            const leadSourceCtx = document.getElementById('leadSourceChart').getContext('2d');
+            const funnelCtx = document.getElementById('funnelChart').getContext('2d');
+
+            const leadSourceChart = new Chart(leadSourceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Chatbot', 'Website Form', 'Social Media'],
+                    datasets: [{
+                        label: 'New Leads',
+                        data: [58, 25, 12],
+                        backgroundColor: ['#0d9488', '#fb923c', '#9ca3af'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            const funnelChart = new Chart(funnelCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Conversation Started', 'Email Captured', 'Qualified Lead', 'Converted'],
+                    datasets: [{
+                        label: 'Funnel Conversion',
+                        data: [100, 75, 25, 14],
+                        backgroundColor: ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'right' } }
+                }
+            });
+            
+            // --- Chart.js Visualization (SEO) ---
+            const keywordRankCtx = document.getElementById('keywordRankChart').getContext('2d');
+            const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+
+            const keywordRankChart = new Chart(keywordRankCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Branded', 'Product', 'Informational', 'Transactional'],
+                    datasets: [{
+                        label: 'Avg. Ranking',
+                        data: [2, 5, 8, 11],
+                        backgroundColor: ['#2563eb', '#1d4ed8', '#1e40af', '#1e3a8a'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, reverse: true } }
+                }
+            });
+
+            const trafficChart = new Chart(trafficCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Organic Search', 'Social Media', 'Referral'],
+                    datasets: [{
+                        label: 'Traffic by Source',
+                        data: [65, 25, 10],
+                        backgroundColor: ['#22c55e', '#ef4444', '#f59e0b'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'right' } }
+                }
+            });
+
+            // --- Creative Automation Logic ---
+            const imageUploadInput = document.getElementById('image-upload');
+            const fileNameSpan = document.getElementById('file-name');
+            const generateCreativeButton = document.getElementById('generate-creative-button');
+            const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook/f2de7cd7-24f2-4a6d-afae-2b58aa107d3c'; // New webhook for creative automation
+
+            imageUploadInput.addEventListener('change', () => {
+                if (imageUploadInput.files.length > 0) {
+                    fileNameSpan.textContent = imageUploadInput.files[0].name;
+                } else {
+                    fileNameSpan.textContent = 'No file selected';
+                }
+            });
+
+            generateCreativeButton.addEventListener('click', () => {
+                if (imageUploadInput.files.length === 0) {
+                    alert('Please select an image to upload first.');
+                    return;
+                }
+
+                const file = imageUploadInput.files[0];
+                const reader = new FileReader();
+                reader.onloadend = async () => {
+                    const base64Data = reader.result;
+
+                    // This is a simplified fetch request. In a real-world scenario, you'd show a loading state and handle success/error messages.
+                    try {
+                        const response = await fetch(CREATIVE_WEBHOOK_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ image: base64Data })
+                        });
+                        if (response.ok) {
+                            alert('Creative brief generated successfully!');
+                        } else {
+                            alert('Failed to generate creative brief.');
+                        }
+                    } catch (error) {
+                        alert('An error occurred. Please try again.');
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // --- Chatbot Logic ---
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+            const chatMessages = document.getElementById('chat-messages');
+            const CHATBOT_WEBHOOK_URL = 'YOUR_CHATBOT_N8N_WEBHOOK_URL_HERE'; // Old webhook for chatbot
+
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                if (sender === 'user') {
+                    messageDiv.classList.add('user-message');
+                } else {
+                    messageDiv.classList.add('bot-message');
+                }
+                messageDiv.textContent = text;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }
-        });
 
-        const engagementChart = new Chart(engagementCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Infographics', 'Short-form Video', 'Long-form Video', 'Articles'],
-                datasets: [{
-                    label: 'Engagement',
-                    data: [25, 45, 20, 10],
-                    backgroundColor: ['#f59e0b', '#22c55e', '#ef4444', '#6b7280'],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'right' } }
-            }
-        });
+            async function sendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
 
-        // --- Chart.js Visualization (Lead Capture) ---
-        const leadSourceCtx = document.getElementById('leadSourceChart').getContext('2d');
-        const funnelCtx = document.getElementById('funnelChart').getContext('2d');
+                addMessage(message, 'user');
+                userInput.value = '';
 
-        const leadSourceChart = new Chart(leadSourceCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Chatbot', 'Website Form', 'Social Media'],
-                datasets: [{
-                    label: 'New Leads',
-                    data: [58, 25, 12],
-                    backgroundColor: ['#0d9488', '#fb923c', '#9ca3af'],
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true } }
-            }
-        });
-
-        const funnelChart = new Chart(funnelCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Conversation Started', 'Email Captured', 'Qualified Lead', 'Converted'],
-                datasets: [{
-                    label: 'Funnel Conversion',
-                    data: [100, 75, 25, 14],
-                    backgroundColor: ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444'],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'right' } }
-            }
-        });
-        
-        // --- Chart.js Visualization (SEO) ---
-        const keywordRankCtx = document.getElementById('keywordRankChart').getContext('2d');
-        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
-
-        const keywordRankChart = new Chart(keywordRankCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Branded', 'Product', 'Informational', 'Transactional'],
-                datasets: [{
-                    label: 'Avg. Ranking',
-                    data: [2, 5, 8, 11],
-                    backgroundColor: ['#2563eb', '#1d4ed8', '#1e40af', '#1e3a8a'],
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, reverse: true } }
-            }
-        });
-
-        const trafficChart = new Chart(trafficCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Organic Search', 'Social Media', 'Referral'],
-                datasets: [{
-                    label: 'Traffic by Source',
-                    data: [65, 25, 10],
-                    backgroundColor: ['#22c55e', '#ef4444', '#f59e0b'],
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'right' } }
-            }
-        });
-
-        // --- Creative Automation Logic ---
-        const imageUploadInput = document.getElementById('image-upload');
-        const fileNameSpan = document.getElementById('file-name');
-        const generateCreativeButton = document.getElementById('generate-creative-button');
-        const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook/f2de7cd7-24f2-4a6d-afae-2b58aa107d3c';
-
-        imageUploadInput.addEventListener('change', () => {
-            if (imageUploadInput.files.length > 0) {
-                fileNameSpan.textContent = imageUploadInput.files[0].name;
-            } else {
-                fileNameSpan.textContent = 'No file selected';
-            }
-        });
-
-        generateCreativeButton.addEventListener('click', () => {
-            if (imageUploadInput.files.length === 0) {
-                alert('Please select an image to upload first.');
-                return;
-            }
-
-            const file = imageUploadInput.files[0];
-            const reader = new FileReader();
-            reader.onloadend = async () => {
-                const base64Data = reader.result;
+                const loadingMessage = document.createElement('div');
+                loadingMessage.classList.add('message', 'bot-message');
+                loadingMessage.innerHTML = '<span class="loading-spinner"></span>';
+                chatMessages.appendChild(loadingMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
 
                 try {
-                    const response = await fetch(CREATIVE_WEBHOOK_URL, {
+                    const response = await fetch(CHATBOT_WEBHOOK_URL, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ image: base64Data })
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ message: message }),
                     });
-                    if (response.ok) {
-                        alert('Creative brief generated successfully!');
-                    } else {
-                        alert('Failed to generate creative brief.');
+
+                    if (!response.ok) {
+                        throw new Error(HTTP error! status: ${response.status});
                     }
+
+                    const data = await response.json();
+                    
+                    chatMessages.removeChild(loadingMessage);
+                    addMessage(data.response, 'bot');
+
                 } catch (error) {
-                    alert('An error occurred. Please try again.');
+                    console.error('Error:', error);
+                    chatMessages.removeChild(loadingMessage);
+                    addMessage('Sorry, I am having trouble connecting right now. Please try again later.', 'bot');
                 }
-            };
-            reader.readAsDataURL(file);
-        });
-
-        // --- Chatbot Logic ---
-        const userInput = document.getElementById('user-input');
-        const sendButton = document.getElementById('send-button');
-        const chatMessages = document.getElementById('chat-messages');
-        const CHATBOT_WEBHOOK_URL = 'YOUR_CHATBOT_N8N_WEBHOOK_URL_HERE';
-
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            if (sender === 'user') {
-                messageDiv.classList.add('user-message');
-            } else {
-                messageDiv.classList.add('bot-message');
             }
-            messageDiv.textContent = text;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
 
-        async function sendMessage() {
-            const message = userInput.value.trim();
-            if (message === '') return;
-
-            addMessage(message, 'user');
-            userInput.value = '';
-
-            const loadingMessage = document.createElement('div');
-            loadingMessage.classList.add('message', 'bot-message');
-            loadingMessage.innerHTML = '<span class="loading-spinner"></span>';
-            chatMessages.appendChild(loadingMessage);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            try {
-                const response = await fetch(CHATBOT_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ message: message }),
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+            sendButton.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
                 }
-
-                const data = await response.json();
-                
-                chatMessages.removeChild(loadingMessage);
-                addMessage(data.response, 'bot');
-
-            } catch (error) {
-                console.error('Error:', error);
-                chatMessages.removeChild(loadingMessage);
-                addMessage('Sorry, I am having trouble connecting right now. Please try again later.', 'bot');
-            }
-        }
-
-        sendButton.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
+            });
         });
-    });
-</script>
+    </script>
+</body>
+</html>
