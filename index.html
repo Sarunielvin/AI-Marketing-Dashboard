@@ -396,34 +396,37 @@
 
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- UI and Navigation Logic ---
-            const hamburgerMenu = document.getElementById('hamburger-menu');
-            const sidebar = document.getElementById('sidebar');
-            const navItems = document.querySelectorAll('.sidebar-item');
-            const pages = document.querySelectorAll('.content');
-            const downloadLink = document.getElementById('download-report');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- UI and Navigation Logic ---
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const sidebar = document.getElementById('sidebar');
+        const navItems = document.querySelectorAll('.sidebar-item');
+        const pages = document.querySelectorAll('.content');
+        const downloadLink = document.getElementById('download-report');
 
-const hamburgerMenu = document.getElementById('hamburger-menu');
-const sidebar = document.getElementById('sidebar');
-
-if (hamburgerMenu && sidebar) {
-    hamburgerMenu.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
-    });
-}
-
-            // Navigation functionality - Shows the selected page and hides others
-            navItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const pageId = item.id.replace('nav-', '');
-                    pages.forEach(page => page.classList.remove('active'));
-                    document.getElementById(${pageId}-page).classList.add('active');
-                    sidebar.classList.remove('open');
-                });
+        // Hamburger menu functionality - Toggles the 'open' class on the sidebar
+        if (hamburgerMenu && sidebar) {
+            hamburgerMenu.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
             });
+        }
 
+        // Navigation functionality - Shows the selected page and hides others
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const pageId = item.id.replace('nav-', '');
+                pages.forEach(page => page.classList.remove('active'));
+                document.getElementById(`${pageId}-page`).classList.add('active');
+                sidebar.classList.remove('open');
+            });
+        });
+
+        // --- All other existing code for charts, download, and webhook ---
+        // ... (All other code remains here) ...
+
+    });
+</script>
             // --- Download Report Logic ---
             downloadLink.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -616,5 +619,6 @@ if (hamburgerMenu && sidebar) {
     </script>
 </body>
 </html>
+
 
 
