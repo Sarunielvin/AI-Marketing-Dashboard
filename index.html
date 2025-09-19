@@ -405,12 +405,14 @@
             const pages = document.querySelectorAll('.content');
             const downloadLink = document.getElementById('download-report');
 
-            // Hamburger menu functionality - Toggles the 'open' class on the sidebar
-            if (hamburgerMenu && sidebar) {
-                hamburgerMenu.addEventListener('click', () => {
-                    sidebar.classList.toggle('open');
-                });
-            }
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const sidebar = document.getElementById('sidebar');
+
+if (hamburgerMenu && sidebar) {
+    hamburgerMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+    });
+}
 
             // Navigation functionality - Shows the selected page and hides others
             navItems.forEach(item => {
@@ -614,4 +616,5 @@
     </script>
 </body>
 </html>
+
 
