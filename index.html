@@ -560,7 +560,7 @@
             const imageUploadInput = document.getElementById('image-upload');
             const fileNameSpan = document.getElementById('file-name');
             const generateCreativeButton = document.getElementById('generate-creative-button');
-            const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook/b3b4d4fc-a180-4aad-96bb-616956d17048'; // New webhook for creative automation
+            const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook/b3b4d4fc-a180-4aad-96bb-616956d17048'; // Your production URL
 
             imageUploadInput.addEventListener('change', () => {
                 if (imageUploadInput.files.length > 0) {
@@ -570,101 +570,43 @@
                 }
             });
 
-            generateCreativeButton.addEventListener('click', () => {
+            generateCreativeButton.addEventListener('click', async () => {
                 if (imageUploadInput.files.length === 0) {
-                    alert('Please select an image to upload first.');
+                    alert('Please select an image first.');
                     return;
                 }
 
+                const originalText = generateCreativeButton.innerHTML;
+                generateCreativeButton.disabled = true;
+                generateCreativeButton.innerHTML = '<span class="loading-spinner"></span> Generating...'; // Show loading
+
                 const file = imageUploadInput.files[0];
-                const reader = new FileReader();
-                reader.onloadend = async () => {
-                    const base64Data = reader.result;
-
-                    // This is a simplified fetch request. In a real-world scenario, you'd show a loading state and handle success/error messages.
-                    try {
-                        const response = await fetch(https://sarunielvin.app.n8n.cloud/webhook/b3b4d4fc-a180-4aad-96bb-616956d17048, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ image: base64Data })
-                        });
-                        if (response.ok) {
-                            alert('Creative brief generated successfully!');
-                        } else {
-                            alert('Failed to generate creative brief.');
-                        }
-                    } catch (error) {
-                        alert('An error occurred. Please try again.');
-                    }
-                };
-                reader.readAsDataURL(file);
-            });
-
-            // --- Chatbot Logic ---
-            const userInput = document.getElementById('user-input');
-            const sendButton = document.getElementById('send-button');
-            const chatMessages = document.getElementById('chat-messages');
-            const CHATBOT_WEBHOOK_URL = 'YOUR_CHATBOT_N8N_WEBHOOK_URL_HERE'; // Old webhook for chatbot
-
-            function addMessage(text, sender) {
-                const messageDiv = document.createElement('div');
-                messageDiv.classList.add('message');
-                if (sender === 'user') {
-                    messageDiv.classList.add('user-message');
-                } else {
-                    messageDiv.classList.add('bot-message');
-                }
-                messageDiv.textContent = text;
-                chatMessages.appendChild(messageDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-
-            async function sendMessage() {
-                const message = userInput.value.trim();
-                if (message === '') return;
-
-                addMessage(message, 'user');
-                userInput.value = '';
-
-                const loadingMessage = document.createElement('div');
-                loadingMessage.classList.add('message', 'bot-message');
-                loadingMessage.innerHTML = '<span class="loading-spinner"></span>';
-                chatMessages.appendChild(loadingMessage);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+                const formData = new FormData();
+                formData.append('image', file);
 
                 try {
-                    const response = await fetch(CHATBOT_WEBHOOK_URL, {
+                    const response = await fetch(CREATIVE_WEBHOOK_URL, {
                         method: 'POST',
+                        body: formData,
                         headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ message: message }),
+                            'X-Webhook-Secret': '83633dfe-3588-4a6f-8a51-c6c9753125d5ba07fb77-6f8d-4fee-9f7e-2608a33deab4' // Your secret
+                        }
                     });
 
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                    const textResponse = await response.text();
+                    if (response.ok) {
+                        alert('Success: ' + textResponse);
+                    } else {
+                        alert('Failed: Status ' + response.status + ' - ' + textResponse);
                     }
-
-                    const data = await response.json();
-                    
-                    chatMessages.removeChild(loadingMessage);
-                    addMessage(data.response, 'bot');
-
                 } catch (error) {
-                    console.error('Error:', error);
-                    chatMessages.removeChild(loadingMessage);
-                    addMessage('Sorry, I am having trouble connecting right now. Please try again later.', 'bot');
-                }
-            }
-
-            sendButton.addEventListener('click', sendMessage);
-            userInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    sendMessage();
+                    alert('Network Error: ' + error.message);
+                } finally {
+                    generateCreativeButton.disabled = false;
+                    generateCreativeButton.innerHTML = originalText; // Reset button
                 }
             });
-        });
-    </script>
 </body>
 </html>
+
 
