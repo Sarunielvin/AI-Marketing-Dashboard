@@ -560,7 +560,7 @@
             const imageUploadInput = document.getElementById('image-upload');
             const fileNameSpan = document.getElementById('file-name');
             const generateCreativeButton = document.getElementById('generate-creative-button');
-            const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook-test/f2de7cd7-24f2-4a6d-afae-2b58aa107d3c'; // New webhook for creative automation
+            const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook/b3b4d4fc-a180-4aad-96bb-616956d17048'; // New webhook for creative automation
 
             imageUploadInput.addEventListener('change', () => {
                 if (imageUploadInput.files.length > 0) {
@@ -583,7 +583,7 @@
 
                     // This is a simplified fetch request. In a real-world scenario, you'd show a loading state and handle success/error messages.
                     try {
-                        const response = await fetch(CREATIVE_WEBHOOK_URL, {
+                        const response = await fetch(https://sarunielvin.app.n8n.cloud/webhook/b3b4d4fc-a180-4aad-96bb-616956d17048, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ image: base64Data })
@@ -667,3 +667,4 @@
     </script>
 </body>
 </html>
+
