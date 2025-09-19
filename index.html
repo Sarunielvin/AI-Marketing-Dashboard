@@ -192,13 +192,11 @@
 </head>
 <body class="bg-gray-100">
 
-    <!-- Header -->
     <header class="header">
         <div class="header-title">Full-Funnel Dashboard</div>
         <i class="fas fa-bars hamburger-icon" id="hamburger-menu"></i>
     </header>
 
-    <!-- Sidebar Menu -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-item" id="nav-dashboard">
             <i class="fas fa-chart-line"></i> Dashboard
@@ -220,10 +218,8 @@
         </a>
     </aside>
 
-    <!-- Main Content Area -->
     <main class="container">
 
-        <!-- Page 1: Dashboard -->
         <section id="dashboard-page" class="content active">
             <div class="card">
                 <h2 class="text-2xl font-bold mb-4 text-gray-800">Social Media Analytics</h2>
@@ -304,7 +300,6 @@
             </div>
         </section>
 
-        <!-- Page 2: Creative Automation -->
         <section id="creative-page" class="content">
             <div class="card max-w-lg mx-auto">
                 <h2 class="text-2xl font-bold mb-4 text-gray-800">Creative Automation</h2>
@@ -325,7 +320,6 @@
         </section>
 
 
-        <!-- Page 3: SEO Automation -->
         <section id="seo-page" class="content">
             <div class="card">
                 <h2 class="text-2xl font-bold mb-4 text-gray-800">SEO Keyword Performance</h2>
@@ -345,9 +339,9 @@
                         Based on search console and competitor data, here are the top opportunities to focus on this week.
                     </p>
                     <ul class="list-disc list-inside text-gray-700 space-y-2">
-                        <li>**High-Traffic Keyword:** `[Keyword Example]` - Your current ranking is #15. A content update could push you to the top 5.</li>
-                        <li>**Prospect Query:** `[Query Example]` - Competitor X ranks #1 for this. Create a blog post or video to target this query.</li>
-                        <li>**Competitor Gap:** Competitor Y is ranking for `[Keyword Example]` but doesn't have a content hub. Create an in-depth article series to dominate this topic.</li>
+                        <li>*High-Traffic Keyword:* [Keyword Example] - Your current ranking is #15. A content update could push you to the top 5.</li>
+                        <li>*Prospect Query:* [Query Example] - Competitor X ranks #1 for this. Create a blog post or video to target this query.</li>
+                        <li>*Competitor Gap:* Competitor Y is ranking for [Keyword Example] but doesn't have a content hub. Create an in-depth article series to dominate this topic.</li>
                     </ul>
                     <button id="run-seo-automation" class="w-full mt-6 bg-blue-500 text-white font-bold py-3 px-6 rounded-full transition-colors hover:bg-blue-600">
                         <i class="fas fa-play-circle mr-2"></i> Run SEO Automation
@@ -357,7 +351,6 @@
         </section>
 
 
-        <!-- Page 4: Reports -->
         <section id="reports-page" class="content">
             <div class="card">
                 <h2 class="text-2xl font-bold mb-4 text-gray-800">Weekly Performance Report</h2>
@@ -376,15 +369,14 @@
                 <div class="rounded-xl p-4 bg-gray-50 border border-gray-200">
                     <h3 class="text-lg font-semibold mb-2">Next Three Steps</h3>
                     <ol class="list-decimal list-inside text-gray-700 space-y-2">
-                        <li>**Step 1:** Use the AI agent to generate five new short-form video script ideas based on our top-performing content from the last month.</li>
-                        <li>**Step 2:** Use the `Airtable` automation to create a new `content_idea` record for each of these ideas.</li>
-                        <li>**Step 3:** Allocate 80% of our content creation time this week to producing the top two video ideas from that list.</li>
+                        <li>*Step 1:* Use the AI agent to generate five new short-form video script ideas based on our top-performing content from the last month.</li>
+                        <li>*Step 2:* Use the Airtable automation to create a new content_idea record for each of these ideas.</li>
+                        <li>*Step 3:* Allocate 80% of our content creation time this week to producing the top two video ideas from that list.</li>
                     </ol>
                 </div>
             </div>
         </section>
 
-        <!-- Page 5: Chatbot -->
         <section id="chatbot-page" class="content">
             <div class="chatbot-container max-w-lg mx-auto">
                 <div class="chat-header">
@@ -413,15 +405,19 @@
             const pages = document.querySelectorAll('.content');
             const downloadLink = document.getElementById('download-report');
 
-            hamburgerMenu.addEventListener('click', () => {
-                sidebar.classList.toggle('open');
-            });
+            // Hamburger menu functionality - Toggles the 'open' class on the sidebar
+            if (hamburgerMenu && sidebar) {
+                hamburgerMenu.addEventListener('click', () => {
+                    sidebar.classList.toggle('open');
+                });
+            }
 
+            // Navigation functionality - Shows the selected page and hides others
             navItems.forEach(item => {
                 item.addEventListener('click', () => {
                     const pageId = item.id.replace('nav-', '');
                     pages.forEach(page => page.classList.remove('active'));
-                    document.getElementById(`${pageId}-page`).classList.add('active');
+                    document.getElementById(${pageId}-page).classList.add('active');
                     sidebar.classList.remove('open');
                 });
             });
@@ -561,6 +557,7 @@
             const fileNameSpan = document.getElementById('file-name');
             const generateCreativeButton = document.getElementById('generate-creative-button');
             const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook/b3b4d4fc-a180-4aad-96bb-616956d17048'; // Your production URL
+            const WEBHOOK_SECRET = '83633dfe-3588-4a6f-8a51-c6c9753125d5'; // Your webhook secret
 
             imageUploadInput.addEventListener('change', () => {
                 if (imageUploadInput.files.length > 0) {
@@ -577,8 +574,10 @@
                 }
 
                 const originalText = generateCreativeButton.innerHTML;
+                
+                // Show a more professional loading state
                 generateCreativeButton.disabled = true;
-                generateCreativeButton.innerHTML = '<span class="loading-spinner"></span> Generating...'; // Show loading
+                generateCreativeButton.innerHTML = '<span class="loading-spinner"></span> Generating...';
 
                 const file = imageUploadInput.files[0];
                 const formData = new FormData();
@@ -589,24 +588,30 @@
                         method: 'POST',
                         body: formData,
                         headers: {
-                            'X-Webhook-Secret': '83633dfe-3588-4a6f-8a51-c6c9753125d5ba07fb77-6f8d-4fee-9f7e-2608a33deab4' // Your secret
+                            'X-Webhook-Secret': WEBHOOK_SECRET
                         }
                     });
 
-                    const textResponse = await response.text();
+                    // Parse the response as JSON
+                    const result = await response.json(); 
+
                     if (response.ok) {
-                        alert('Success: ' + textResponse);
+                        // Display success message from the webhook
+                        alert('Success: ' + result.message);
                     } else {
-                        alert('Failed: Status ' + response.status + ' - ' + textResponse);
+                        // Display error message from the webhook
+                        alert('Failed: Status ' + response.status + ' - ' + (result.message || 'Unknown Error'));
                     }
                 } catch (error) {
                     alert('Network Error: ' + error.message);
                 } finally {
+                    // Reset button state
                     generateCreativeButton.disabled = false;
-                    generateCreativeButton.innerHTML = originalText; // Reset button
+                    generateCreativeButton.innerHTML = originalText;
                 }
             });
+        });
+    </script>
 </body>
 </html>
-
 
