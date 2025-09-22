@@ -397,65 +397,41 @@
     </main>
 
   <script>
+ <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- UI and Navigation Logic ---
+        // --- Get all necessary elements from the DOM ---
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
         const navItems = document.querySelectorAll('.sidebar-item');
         const pages = document.querySelectorAll('.content');
         const downloadLink = document.getElementById('download-report');
 
-        // Hamburger menu functionality - Toggles the 'open' class on the sidebar
+        // --- Hamburger Menu Logic ---
+        // This toggles the sidebar visibility when the hamburger icon is clicked.
         if (hamburgerMenu && sidebar) {
             hamburgerMenu.addEventListener('click', () => {
                 sidebar.classList.toggle('open');
             });
         }
 
-        // Navigation functionality - Shows the selected page and hides others
+        // --- Navigation Logic ---
+        // This handles switching between different content pages.
         navItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const pageId = item.id.replace('nav-', '');
-                pages.forEach(page => page.classList.remove('active'));
-                document.getElementById(`${pageId}-page`).classList.add('active');
-                sidebar.classList.remove('open');
-            });
-        });
-
-        // --- All other existing code for charts, download, and webhook ---
-        // ... (All other code remains here) ...
-
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- UI and Navigation Logic ---
-        const hamburgerMenu = document.getElementById('hamburger-menu');
-        const sidebar = document.getElementById('sidebar');
-        const navItems = document.querySelectorAll('.sidebar-item');
-        const pages = document.querySelectorAll('.content');
-        const downloadLink = document.getElementById('download-report');
-
-        // Hamburger menu functionality
-        if (hamburgerMenu && sidebar) {
-            hamburgerMenu.addEventListener('click', () => {
-                sidebar.classList.toggle('open');
-            });
-        }
-
-        // Navigation functionality
-        navItems.forEach(item => {
-            // We check to avoid adding a click listener to the download link itself for navigation
-            if (item.id !== 'download-report') { 
+            // CRITICAL FIX: We add a check to ensure the "Download Report" link is NOT treated as a page link.
+            if (item.id !== 'download-report') {
                 item.addEventListener('click', () => {
                     const pageId = item.id.replace('nav-', '');
+                    
+                    // Hide all content sections
                     pages.forEach(page => page.classList.remove('active'));
                     
+                    // Show the target content section
                     const targetPage = document.getElementById(`${pageId}-page`);
-                    if(targetPage) {
+                    if (targetPage) {
                         targetPage.classList.add('active');
                     }
                     
+                    // Close the sidebar after a selection is made
                     sidebar.classList.remove('open');
                 });
             }
@@ -652,3 +628,4 @@
         }
     });
 </script>
+
