@@ -13,11 +13,8 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
-        .container {
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+        .main-container {
+            padding-top: 64px; /* Adjust this value based on your header's height */
         }
         .header {
             background-color: #1f2937;
@@ -27,9 +24,12 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: sticky;
+            position: fixed; /* Changed to fixed for better stickiness */
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 40;
+            height: 64px; /* Explicit height */
         }
         .header-title {
             font-weight: 700;
@@ -218,8 +218,7 @@
         </a>
     </aside>
 
-    <main class="container">
-
+    <main class="main-container">
         <section id="dashboard-page" class="content active">
             <div class="card">
                 <h2 class="text-2xl font-bold mb-4 text-gray-800">Social Media Analytics</h2>
@@ -248,7 +247,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="card">
                 <h2 class="text-2xl font-bold mb-4 text-gray-800">Lead Capture & Conversion Analytics</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -276,7 +274,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="card">
                 <h2 class="text-2xl font-bold mb-4 text-gray-800">Sample Lead Profile</h2>
                 <div class="bg-indigo-50 rounded-xl p-6">
@@ -319,7 +316,6 @@
             </div>
         </section>
 
-
         <section id="seo-page" class="content">
             <div class="card">
                 <h2 class="text-2xl font-bold mb-4 text-gray-800">SEO Keyword Performance</h2>
@@ -349,7 +345,6 @@
                 </div>
             </div>
         </section>
-
 
         <section id="reports-page" class="content">
             <div class="card">
@@ -393,239 +388,216 @@
                 </div>
             </div>
         </section>
-
     </main>
 
-  <script>
- <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- Get all necessary elements from the DOM ---
-        const hamburgerMenu = document.getElementById('hamburger-menu');
-        const sidebar = document.getElementById('sidebar');
-        const navItems = document.querySelectorAll('.sidebar-item');
-        const pages = document.querySelectorAll('.content');
-        const downloadLink = document.getElementById('download-report');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Get all necessary elements from the DOM ---
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const sidebar = document.getElementById('sidebar');
+            const navItems = document.querySelectorAll('.sidebar-item');
+            const pages = document.querySelectorAll('.content');
+            const downloadLink = document.getElementById('download-report');
 
-        // --- Hamburger Menu Logic ---
-        // This toggles the sidebar visibility when the hamburger icon is clicked.
-        if (hamburgerMenu && sidebar) {
-            hamburgerMenu.addEventListener('click', () => {
-                sidebar.classList.toggle('open');
+            // --- Hamburger Menu Logic ---
+            if (hamburgerMenu && sidebar) {
+                hamburgerMenu.addEventListener('click', () => {
+                    sidebar.classList.toggle('open');
+                });
+            }
+
+            // --- Navigation Logic ---
+            navItems.forEach(item => {
+                if (item.id !== 'download-report') {
+                    item.addEventListener('click', () => {
+                        const pageId = item.id.replace('nav-', '');
+                        pages.forEach(page => page.classList.remove('active'));
+                        const targetPage = document.getElementById(`${pageId}-page`);
+                        if (targetPage) {
+                            targetPage.classList.add('active');
+                        }
+                        sidebar.classList.remove('open');
+                    });
+                }
             });
-        }
 
-        // --- Navigation Logic ---
-        // This handles switching between different content pages.
-        navItems.forEach(item => {
-            // CRITICAL FIX: We add a check to ensure the "Download Report" link is NOT treated as a page link.
-            if (item.id !== 'download-report') {
-                item.addEventListener('click', () => {
-                    const pageId = item.id.replace('nav-', '');
-                    
-                    // Hide all content sections
-                    pages.forEach(page => page.classList.remove('active'));
-                    
-                    // Show the target content section
-                    const targetPage = document.getElementById(`${pageId}-page`);
-                    if (targetPage) {
-                        targetPage.classList.add('active');
+            // --- Download Report Logic ---
+            if (downloadLink) {
+                downloadLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const reportContentElement = document.getElementById('reports-page');
+                    if (reportContentElement) {
+                        const reportContent = reportContentElement.innerText;
+                        const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8;' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'weekly_report.txt';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
                     }
-                    
-                    // Close the sidebar after a selection is made
-                    sidebar.classList.remove('open');
+                });
+            }
+
+            // --- Chart.js Visualization (Social Media) ---
+            const viewsCtx = document.getElementById('viewsChart')?.getContext('2d');
+            if (viewsCtx) {
+                new Chart(viewsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                        datasets: [{
+                            label: 'Total Views',
+                            data: [5000, 8000, 12000, 15000, 20000],
+                            borderColor: '#2563eb',
+                            backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                            fill: true,
+                            tension: 0.4,
+                        }]
+                    },
+                    options: { responsive: true, plugins: { legend: { display: false } } }
+                });
+            }
+            
+            const engagementCtx = document.getElementById('engagementChart')?.getContext('2d');
+            if (engagementCtx) {
+                new Chart(engagementCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Infographics', 'Short-form Video', 'Long-form Video', 'Articles'],
+                        datasets: [{
+                            label: 'Engagement',
+                            data: [25, 45, 20, 10],
+                            backgroundColor: ['#f59e0b', '#22c55e', '#ef4444', '#6b7280'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: { responsive: true, plugins: { legend: { position: 'right' } } }
+                });
+            }
+            
+            // --- Chart.js Visualization (Lead Capture) ---
+            const leadSourceCtx = document.getElementById('leadSourceChart')?.getContext('2d');
+            if(leadSourceCtx) {
+                new Chart(leadSourceCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Chatbot', 'Website Form', 'Social Media'],
+                        datasets: [{
+                            label: 'New Leads',
+                            data: [58, 25, 12],
+                            backgroundColor: ['#0d9488', '#fb923c', '#9ca3af'],
+                        }]
+                    },
+                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+                });
+            }
+
+            const funnelCtx = document.getElementById('funnelChart')?.getContext('2d');
+            if (funnelCtx) {
+                new Chart(funnelCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Conversation Started', 'Email Captured', 'Qualified Lead', 'Converted'],
+                        datasets: [{
+                            label: 'Funnel Conversion',
+                            data: [100, 75, 25, 14],
+                            backgroundColor: ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: { responsive: true, plugins: { legend: { position: 'right' } } }
+                });
+            }
+
+            // --- Chart.js Visualization (SEO) ---
+            const keywordRankCtx = document.getElementById('keywordRankChart')?.getContext('2d');
+            if (keywordRankCtx) {
+                new Chart(keywordRankCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Branded', 'Product', 'Informational', 'Transactional'],
+                        datasets: [{
+                            label: 'Avg. Ranking',
+                            data: [2, 5, 8, 11],
+                            backgroundColor: ['#2563eb', '#1d4ed8', '#1e40af', '#1e3a8a'],
+                        }]
+                    },
+                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, reverse: true } } }
+                });
+            }
+            
+            const trafficCtx = document.getElementById('trafficChart')?.getContext('2d');
+            if (trafficCtx) {
+                new Chart(trafficCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Organic Search', 'Social Media', 'Referral'],
+                        datasets: [{
+                            label: 'Traffic by Source',
+                            data: [65, 25, 10],
+                            backgroundColor: ['#22c55e', '#ef4444', '#f59e0b'],
+                        }]
+                    },
+                    options: { responsive: true, plugins: { legend: { position: 'right' } } }
+                });
+            }
+            
+            // --- Creative Automation Logic ---
+            const imageUploadInput = document.getElementById('image-upload');
+            const fileNameSpan = document.getElementById('file-name');
+            const generateCreativeButton = document.getElementById('generate-creative-button');
+            const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook/b3b4d4fc-a180-4aad-96bb-616956d17048';
+            const WEBHOOK_SECRET = '83633dfe-3588-4a6f-8a51-c6c9753125d5';
+
+            if (imageUploadInput && fileNameSpan) {
+                imageUploadInput.addEventListener('change', () => {
+                    if (imageUploadInput.files.length > 0) {
+                        fileNameSpan.textContent = imageUploadInput.files[0].name;
+                    } else {
+                        fileNameSpan.textContent = 'No file selected';
+                    }
+                });
+            }
+
+            if (generateCreativeButton && imageUploadInput) {
+                generateCreativeButton.addEventListener('click', async () => {
+                    if (imageUploadInput.files.length === 0) {
+                        alert('Please select an image first.');
+                        return;
+                    }
+
+                    const originalText = generateCreativeButton.innerHTML;
+                    generateCreativeButton.disabled = true;
+                    generateCreativeButton.innerHTML = '<span class="loading-spinner"></span> Generating...';
+
+                    const file = imageUploadInput.files[0];
+                    const formData = new FormData();
+                    formData.append('image', file);
+
+                    try {
+                        const response = await fetch(CREATIVE_WEBHOOK_URL, {
+                            method: 'POST',
+                            body: formData,
+                            headers: { 'X-Webhook-Secret': WEBHOOK_SECRET }
+                        });
+                        const result = await response.json();
+                        if (response.ok) {
+                            alert('Success: ' + result.message);
+                        } else {
+                            alert('Failed: Status ' + response.status + ' - ' + (result.message || 'Unknown Error'));
+                        }
+                    } catch (error) {
+                        alert('Network Error: ' + error.message);
+                    } finally {
+                        generateCreativeButton.disabled = false;
+                        generateCreativeButton.innerHTML = originalText;
+                    }
                 });
             }
         });
-
-        // --- Download Report Logic ---
-        if (downloadLink) {
-            downloadLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                const reportContent = document.getElementById('reports-page').innerText;
-                const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8;' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'weekly_report.txt';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            });
-        }
-
-        // --- Chart.js Visualization (Social Media) ---
-        const viewsCtx = document.getElementById('viewsChart').getContext('2d');
-        const engagementCtx = document.getElementById('engagementChart').getContext('2d');
-
-        new Chart(viewsCtx, {
-            type: 'line',
-            data: {
-                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
-                datasets: [{
-                    label: 'Total Views',
-                    data: [5000, 8000, 12000, 15000, 20000],
-                    borderColor: '#2563eb',
-                    backgroundColor: 'rgba(37, 99, 235, 0.2)',
-                    fill: true,
-                    tension: 0.4,
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } }
-            }
-        });
-
-        new Chart(engagementCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Infographics', 'Short-form Video', 'Long-form Video', 'Articles'],
-                datasets: [{
-                    label: 'Engagement',
-                    data: [25, 45, 20, 10],
-                    backgroundColor: ['#f59e0b', '#22c55e', '#ef4444', '#6b7280'],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'right' } }
-            }
-        });
-
-        // --- Chart.js Visualization (Lead Capture) ---
-        const leadSourceCtx = document.getElementById('leadSourceChart').getContext('2d');
-        const funnelCtx = document.getElementById('funnelChart').getContext('2d');
-
-        new Chart(leadSourceCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Chatbot', 'Website Form', 'Social Media'],
-                datasets: [{
-                    label: 'New Leads',
-                    data: [58, 25, 12],
-                    backgroundColor: ['#0d9488', '#fb923c', '#9ca3af'],
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true } }
-            }
-        });
-
-        new Chart(funnelCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Conversation Started', 'Email Captured', 'Qualified Lead', 'Converted'],
-                datasets: [{
-                    label: 'Funnel Conversion',
-                    data: [100, 75, 25, 14],
-                    backgroundColor: ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444'],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'right' } }
-            }
-        });
-        
-        // --- Chart.js Visualization (SEO) ---
-        const keywordRankCtx = document.getElementById('keywordRankChart').getContext('2d');
-        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
-
-        new Chart(keywordRankCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Branded', 'Product', 'Informational', 'Transactional'],
-                datasets: [{
-                    label: 'Avg. Ranking',
-                    data: [2, 5, 8, 11],
-                    backgroundColor: ['#2563eb', '#1d4ed8', '#1e40af', '#1e3a8a'],
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, reverse: true } }
-            }
-        });
-
-        new Chart(trafficCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Organic Search', 'Social Media', 'Referral'],
-                datasets: [{
-                    label: 'Traffic by Source',
-                    data: [65, 25, 10],
-                    backgroundColor: ['#22c55e', '#ef4444', '#f59e0b'],
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'right' } }
-            }
-        });
-
-        // --- Creative Automation Logic ---
-        const imageUploadInput = document.getElementById('image-upload');
-        const fileNameSpan = document.getElementById('file-name');
-        const generateCreativeButton = document.getElementById('generate-creative-button');
-        const CREATIVE_WEBHOOK_URL = 'https://sarunielvin.app.n8n.cloud/webhook/b3b4d4fc-a180-4aad-96bb-616956d17048';
-        const WEBHOOK_SECRET = '83633dfe-3588-4a6f-8a51-c6c9753125d5';
-
-        if (imageUploadInput) {
-            imageUploadInput.addEventListener('change', () => {
-                if (imageUploadInput.files.length > 0) {
-                    fileNameSpan.textContent = imageUploadInput.files[0].name;
-                } else {
-                    fileNameSpan.textContent = 'No file selected';
-                }
-            });
-        }
-        
-        if (generateCreativeButton) {
-            generateCreativeButton.addEventListener('click', async () => {
-                if (imageUploadInput.files.length === 0) {
-                    alert('Please select an image first.');
-                    return;
-                }
-
-                const originalText = generateCreativeButton.innerHTML;
-                
-                generateCreativeButton.disabled = true;
-                generateCreativeButton.innerHTML = '<span class="loading-spinner"></span> Generating...';
-
-                const file = imageUploadInput.files[0];
-                const formData = new FormData();
-                formData.append('image', file);
-
-                try {
-                    const response = await fetch(CREATIVE_WEBHOOK_URL, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-Webhook-Secret': WEBHOOK_SECRET
-                        }
-                    });
-
-                    const result = await response.json(); 
-
-                    if (response.ok) {
-                        alert('Success: ' + result.message);
-                    } else {
-                        alert('Failed: Status ' + response.status + ' - ' + (result.message || 'Unknown Error'));
-                    }
-                } catch (error) {
-                    alert('Network Error: ' + error.message);
-                } finally {
-                    generateCreativeButton.disabled = false;
-                    generateCreativeButton.innerHTML = originalText;
-                }
-            });
-        }
-    });
-</script>
-
+    </script>
+</body>
+</html>
